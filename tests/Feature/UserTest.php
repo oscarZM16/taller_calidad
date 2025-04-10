@@ -14,15 +14,13 @@ class UserTest extends TestCase
     /** @test */
     public function un_funcionario_no_puede_crear_eliminar_ni_editar_usuarios()
     {
-        // Crear un usuario ya existente en la base
         $usuarioExistente = User::create([
-            'name' => 'Usuario Existente',
+            'name' => 'UsuarioExistente',
             'email' => 'existente@test.com',
             'password' => Hash::make('123456'),
             'rol' => 'administrador',
         ]);
 
-        // Crear un funcionario
         $funcionario = User::create([
             'name' => 'Funcionario',
             'email' => 'funcionario@test.com',
@@ -32,12 +30,10 @@ class UserTest extends TestCase
 
         $this->actingAs($funcionario);
 
-        // Intentar acceder al formulario de creación
         $this->get('/users/create')
             ->assertRedirect('/users')
             ->assertSessionHas('error', 'Acceso denegado');
 
-        // Intentar crear usuario (POST)
         $this->post('/users', [
             'name' => 'Hackeado',
             'email' => 'hack@correo.com',
@@ -46,16 +42,13 @@ class UserTest extends TestCase
         ]);
         $this->assertDatabaseMissing('users', ['email' => 'hack@correo.com']);
 
-        // Intentar acceder al formulario de edición
         $this->get("/users/{$usuarioExistente->id}/edit")
-            ->assertStatus(403); // si tienes esta protección, o redirige a users
+            ->assertStatus(403);
 
-        // Intentar eliminar usuario
         $this->delete("/users/{$usuarioExistente->id}")
             ->assertRedirect('/users')
             ->assertSessionHas('error', 'No tienes permiso para eliminar usuarios.');
 
-        // Verificar que el usuario no fue eliminado
         $this->assertDatabaseHas('users', ['email' => 'existente@test.com']);
     }
 
@@ -71,9 +64,8 @@ class UserTest extends TestCase
 
         $this->actingAs($admin);
 
-        // Crear usuario
         $this->post('/users', [
-            'name' => 'Nuevo Usuario',
+            'name' => 'NuevoUsuario',
             'email' => 'nuevo@correo.com',
             'password' => 'clave123',
             'rol' => 'supervisor',
@@ -82,16 +74,14 @@ class UserTest extends TestCase
 
         $nuevo = User::where('email', 'nuevo@correo.com')->first();
 
-        // (Simular) Actualizar usuario (esto depende de que tengas el método 'update')
         $this->put("/users/{$nuevo->id}", [
-            'name' => 'Usuario Actualizado',
+            'name' => 'UsuarioActualizado',
             'email' => 'nuevo@correo.com',
             'password' => 'clave1234',
             'rol' => 'supervisor',
         ]);
-        $this->assertDatabaseHas('users', ['name' => 'Usuario Actualizado']);
+        $this->assertDatabaseHas('users', ['name' => 'UsuarioActualizado']);
 
-        // Eliminar usuario
         $this->delete("/users/{$nuevo->id}");
         $this->assertDatabaseMissing('users', ['email' => 'nuevo@correo.com']);
     }

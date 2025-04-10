@@ -24,73 +24,72 @@ class UserController extends Controller
     }
 
     public function store(Request $request)
-{
-    if (auth()->user()->rol === 'funcionario') {
-        return redirect()->route('users.index')->with('error', 'No tienes permiso para crear usuarios.');
+    {
+        if (auth()->user()->rol === 'funcionario') {
+            return redirect()->route('users.index')->with('error', 'No tienes permiso para crear usuarios.');
+        }
+
+        $request->validate([
+            'name' => ['required', 'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/u'],
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+            'rol' => 'required',
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'rol' => $request->rol,
+        ]);
+
+        return redirect()->route('users.index')->with('success', 'Usuario creado correctamente.');
     }
 
-    $request->validate([
-        'name' => 'required',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|min:6',
-        'rol' => 'required',
-    ]);
+    public function edit($id)
+    {
+        if (auth()->user()->rol === 'funcionario') {
+            abort(403, 'No tienes permiso para editar usuarios.');
+        }
 
-    User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-        'rol' => $request->rol,
-    ]);
+        $user = User::findOrFail($id);
+        return view('users.edit', compact('user'));
+    }
 
-    return redirect()->route('users.index')->with('success', 'Usuario creado correctamente.');
-}
+    public function update(Request $request, $id)
+    {
+        if (auth()->user()->rol === 'funcionario') {
+            return redirect()->route('users.index')->with('error', 'No tienes permiso para actualizar usuarios.');
+        }
 
+        $request->validate([
+            'name' => ['required', 'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/u'],
+            'email' => "required|email|unique:users,email,$id",
+            'password' => 'nullable|min:6',
+            'rol' => 'required',
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->rol = $request->rol;
+        $user->save();
+
+        return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
+    }
 
     public function destroy($id)
     {
         if (auth()->user()->rol === 'funcionario') {
             return redirect()->route('users.index')->with('error', 'No tienes permiso para eliminar usuarios.');
         }
-    
+
         User::destroy($id);
         return back()->with('success', 'Usuario eliminado correctamente.');
     }
-    public function edit($id)
-    {
-        if (auth()->user()->rol === 'funcionario') {
-            abort(403, 'No tienes permiso para editar usuarios.');
-        }
-    
-        $user = User::findOrFail($id);
-        return view('users.edit', compact('user'));
-    }
-    
-public function update(Request $request, $id)
-{
-    if (auth()->user()->rol === 'funcionario') {
-        return redirect()->route('users.index')->with('error', 'No tienes permiso para actualizar usuarios.');
-    }
-
-    $request->validate([
-        'name' => 'required',
-        'email' => "required|email|unique:users,email,$id",
-        'password' => 'nullable|min:6',
-        'rol' => 'required',
-    ]);
-
-    $user = User::findOrFail($id);
-
-    $user->name = $request->name;
-    $user->email = $request->email;
-    if ($request->password) {
-        $user->password = Hash::make($request->password);
-    }
-    $user->rol = $request->rol;
-    $user->save();
-
-    return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
-}
-
-    
 }
