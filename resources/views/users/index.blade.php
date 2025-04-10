@@ -17,8 +17,7 @@
 
     <div class="mb-3">
         @if(auth()->user()->rol === 'funcionario')
-            <a href="#" class="btn btn-outline-secondary">📦 Disponibilidad de productos</a>
-        @else
+           
             <a href="{{ route('users.create') }}" class="btn btn-primary me-2">+ Crear Usuario</a>
             <a href="{{ route('productos.index') }}" class="btn btn-outline-light">🛠 Administración de insumos</a>
         @endif

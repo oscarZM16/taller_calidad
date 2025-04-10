@@ -23,10 +23,32 @@ class ProductoController extends Controller
         });
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $productos = Producto::all();
-        return view('productos.index', compact('productos'));
+        // Filtros dinámicos desde el formulario
+        $query = Producto::query();
+
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . $request->nombre . '%');
+        }
+
+        if ($request->filled('estado')) {
+            $query->where('estado', $request->estado);
+        }
+
+        if ($request->bajo_stock == '1') {
+            $query->where('stock', '<=', 5);
+        }
+
+        $productos = $query->get();
+
+        // Reportes generales
+        $total = Producto::count();
+        $activos = Producto::where('estado', 'activo')->count();
+        $inactivos = Producto::where('estado', 'inactivo')->count();
+        $bajoStock = Producto::where('stock', '<=', 5)->count();
+
+        return view('productos.index', compact('productos', 'total', 'activos', 'inactivos', 'bajoStock'));
     }
 
     public function create()
