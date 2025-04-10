@@ -16,9 +16,10 @@
     @endif
 
     <div class="mb-3">
-        @if(auth()->user()->rol === 'funcionario')
-           
+        @if(in_array(auth()->user()->rol, ['administrador', 'supervisor']))
             <a href="{{ route('users.create') }}" class="btn btn-primary me-2">+ Crear Usuario</a>
+            <a href="{{ route('productos.index') }}" class="btn btn-outline-light">🛠 Administración de insumos</a>
+        @elseif(auth()->user()->rol === 'funcionario')
             <a href="{{ route('productos.index') }}" class="btn btn-outline-light">🛠 Administración de insumos</a>
         @endif
     </div>
@@ -46,18 +47,7 @@
                         </td>
                         <td>{{ $user->created_at->format('d/m/Y') }}</td>
                         <td>
-                            @if(auth()->user()->rol !== 'funcionario')
-                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-warning me-1">Editar</a>
-
-                                <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    
-                                    <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-                                </form>
-                            @else
-                                <span class="text-muted">Sin acciones</span>
-                            @endif
+                            <span class="text-muted">Sin acciones</span>
                         </td>
                     </tr>
                 @empty

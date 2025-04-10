@@ -103,7 +103,7 @@
     @endif
 
     @auth
-        @if(in_array(Auth::user()->rol, ['administrador', 'supervisor']))
+        @if(in_array(Auth::user()->rol, ['administrador', 'supervisor', 'funcionario']))
             <a href="{{ route('productos.create') }}" class="btn btn-primary mb-3">+ Nuevo Producto</a>
         @endif
     @endauth
@@ -135,9 +135,13 @@
                             @method('DELETE')
                             <button class="btn btn-sm btn-danger">Eliminar</button>
                         </form>
+                    @elseif(Auth::user()->rol === 'funcionario')
+                        <a href="{{ route('productos.edit', $producto) }}" class="btn btn-sm btn-warning">Editar</a>
                     @else
                         <span class="text-muted">Sin acciones</span>
                     @endif
+
+                    <div class="text-muted small mt-1">Último cambio: {{ $producto->updated_at->format('d/m/Y H:i') }}</div>
                 </td>
             </tr>
             @endforeach

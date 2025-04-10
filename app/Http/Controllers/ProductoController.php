@@ -12,13 +12,21 @@ class ProductoController extends Controller
 {
     public function __construct()
     {
-        // Protege las rutas: solo admins y supervisores pueden crear, editar, eliminar
         $this->middleware(function ($request, $next) {
-            if (in_array($request->route()->getName(), ['productos.create', 'productos.store', 'productos.edit', 'productos.update', 'productos.destroy'])) {
+            $routeName = $request->route()->getName();
+
+            if (in_array($routeName, ['productos.create', 'productos.store', 'productos.edit', 'productos.update'])) {
+                if (!in_array(Auth::user()->rol, ['administrador', 'supervisor', 'funcionario'])) {
+                    abort(403, 'Acceso no autorizado');
+                }
+            }
+
+            if ($routeName === 'productos.destroy') {
                 if (!in_array(Auth::user()->rol, ['administrador', 'supervisor'])) {
                     abort(403, 'Acceso no autorizado');
                 }
             }
+
             return $next($request);
         });
     }
@@ -70,7 +78,9 @@ class ProductoController extends Controller
     public function update(UpdateProductoRequest $request, Producto $producto)
     {
         $producto->update($request->validated());
-        return redirect()->route('productos.index')->with('success', 'Producto actualizado.');
+
+        $fechaCambio = now()->format('d/m/Y H:i');
+        return redirect()->route('productos.index')->with('success', 'Producto actualizado el ' . $fechaCambio);
     }
 
     public function destroy(Producto $producto)
