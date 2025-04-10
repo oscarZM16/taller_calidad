@@ -8,31 +8,30 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    // Mostrar todos los usuarios
     public function index()
     {
         $users = User::all();
         return view('users.index', compact('users'));
     }
 
-    // Mostrar el formulario de creación de usuario
     public function create()
     {
+        if (auth()->user()->rol === 'funcionario') {
+            return redirect()->route('users.index')->with('error', 'Acceso denegado');
+        }
+
         return view('users.create');
     }
 
-    // Guardar un nuevo usuario
     public function store(Request $request)
     {
-        // Validar los datos del formulario
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
-            'rol' => 'required|in:administrador,supervisor,funcionario',
+            'rol' => 'required',
         ]);
 
-        // Crear el nuevo usuario
         User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -40,14 +39,17 @@ class UserController extends Controller
             'rol' => $request->rol,
         ]);
 
-        // Redirigir con mensaje
-        return redirect()->route('users.index')->with('success', 'Usuario creado');
+        return redirect()->route('users.index')->with('success', 'Usuario creado correctamente.');
     }
 
-    // Eliminar usuario
     public function destroy($id)
     {
+        if (auth()->user()->rol === 'funcionario') {
+            return redirect()->route('users.index')->with('error', 'No tienes permiso para eliminar usuarios.');
+        }
+    
         User::destroy($id);
-        return back()->with('success', 'Usuario eliminado');
+        return back()->with('success', 'Usuario eliminado correctamente.');
     }
+    
 }
