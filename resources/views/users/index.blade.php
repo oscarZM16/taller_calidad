@@ -19,7 +19,8 @@
         @if(auth()->user()->rol === 'funcionario')
             <a href="#" class="btn btn-outline-secondary">📦 Disponibilidad de productos</a>
         @else
-            <a href="{{ route('users.create') }}" class="btn btn-primary">+ Crear Usuario</a>
+            <a href="{{ route('users.create') }}" class="btn btn-primary me-2">+ Crear Usuario</a>
+            <a href="{{ route('productos.index') }}" class="btn btn-outline-light">🛠 Administración de insumos</a>
         @endif
     </div>
 
@@ -52,6 +53,7 @@
                                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?');">
                                     @csrf
                                     @method('DELETE')
+                                    
                                     <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
                                 </form>
                             @else
