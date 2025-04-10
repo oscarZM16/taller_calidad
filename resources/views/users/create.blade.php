@@ -2,7 +2,7 @@
 
 @section('content')
     <h2 class="mb-4">Crear Usuario</h2>
-
+    <a href="{{ route('users.index') }}" class="btn btn-secondary mb-3">🏠 Volver al inicio</a>
     @if ($errors->any())
         <div class="alert alert-danger">
             <strong>¡Errores en el formulario!</strong>
@@ -16,7 +16,8 @@
 
     <form action="{{ route('users.store') }}" method="POST" class="card p-4 shadow-sm bg-white">
         @csrf
-
+        
+</a>
         <div class="mb-3">
             <label for="name" class="form-label">Nombre</label>
             <input name="name" type="text" class="form-control" placeholder="Nombre completo" required>

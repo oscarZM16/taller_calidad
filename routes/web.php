@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,7 +12,7 @@ use App\Http\Controllers\UserController;
 |--------------------------------------------------------------------------
 */
 
-// ✅ Ruta raíz: redirige al login (para evitar error 404 en tests)
+// ✅ Ruta raíz: redirige al login
 Route::get('/', function () {
     return redirect()->route('login');
 });
@@ -23,5 +24,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // 🔒 Rutas protegidas por autenticación
 Route::middleware('auth')->group(function () {
+    // Gestión de usuarios
     Route::resource('users', UserController::class);
+
+    // Gestión de productos
+    Route::resource('productos', ProductoController::class);
 });
