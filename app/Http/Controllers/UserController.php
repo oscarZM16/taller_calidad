@@ -24,6 +24,15 @@ class UserController extends Controller
     // Guardar un nuevo usuario
     public function store(Request $request)
     {
+        // Validar los datos del formulario
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+            'rol' => 'required|in:administrador,supervisor,funcionario',
+        ]);
+
+        // Crear el nuevo usuario
         User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -31,6 +40,7 @@ class UserController extends Controller
             'rol' => $request->rol,
         ]);
 
+        // Redirigir con mensaje
         return redirect()->route('users.index')->with('success', 'Usuario creado');
     }
 
