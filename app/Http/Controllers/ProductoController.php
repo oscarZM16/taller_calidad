@@ -53,10 +53,13 @@ class ProductoController extends Controller
         // Reportes generales
         $total = Producto::count();
         $activos = Producto::where('estado', 'activo')->count();
-        $inactivos = Producto::where('estado', 'inactivo')->count();
+        $agotados = Producto::where(function ($query) {
+            $query->where('stock', 0)
+                  ->orWhere('estado', 'inactivo');
+        })->count();
         $bajoStock = Producto::where('stock', '<=', 5)->count();
 
-        return view('productos.index', compact('productos', 'total', 'activos', 'inactivos', 'bajoStock'));
+        return view('productos.index', compact('productos', 'total', 'activos', 'agotados', 'bajoStock'));
     }
 
     public function create()

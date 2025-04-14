@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InventarioApp</title>
+    <title>InventarioSoft</title>
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -33,7 +33,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">InventarioApp</a>
+            <a class="navbar-brand" href="#">InventarioSoft</a>
             @auth
                 <div class="ms-auto">
                     <span class="text-white me-3">Hola, {{ Auth::user()->name }} ({{ Auth::user()->rol }})</span>

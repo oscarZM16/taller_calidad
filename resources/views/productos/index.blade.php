@@ -43,51 +43,13 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-white bg-secondary shadow">
-                <div class="card-body">
-                    <strong>Inactivos:</strong> {{ $inactivos }}
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
             <div class="card text-white bg-danger shadow">
                 <div class="card-body">
-                    <strong>Bajo stock (≤ 5):</strong> {{ $bajoStock }}
+                    <strong>Agotados:</strong> {{ $agotados }}
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="mb-4">
-        <canvas id="estadoChart"></canvas>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const ctx = document.getElementById('estadoChart').getContext('2d');
-        const estadoChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Activos', 'Inactivos'],
-                datasets: [{
-                    label: 'Estado de Insumos',
-                    data: [{{ $activos }}, {{ $inactivos }}],
-                    backgroundColor: ['#198754', '#6c757d'],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            color: '#fff'
-                        }
-                    }
-                }
-            }
-        });
-    </script>
 
     @if(session('success'))
         <script>
@@ -126,19 +88,25 @@
                 <td>{{ $producto->nombre }}</td>
                 <td>{{ $producto->stock }}</td>
                 <td>{{ $producto->unidad_medida }}</td>
-                <td>{{ ucfirst($producto->estado) }}</td>
                 <td>
-                    @if(in_array(Auth::user()->rol, ['administrador', 'supervisor']))
+                    @if($producto->stock <= 0 || $producto->estado === 'inactivo')
+                        <span class="text-danger fw-bold">Agotado</span>
+                    @else
+                        {{ ucfirst($producto->estado) }}
+                    @endif
+                </td>
+                <td>
+                    @if(Auth::user()->rol === 'administrador')
                         <a href="{{ route('productos.edit', $producto) }}" class="btn btn-sm btn-warning">Editar</a>
                         <form action="{{ route('productos.destroy', $producto) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Eliminar producto?')">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-sm btn-danger">Eliminar</button>
                         </form>
-                    @elseif(Auth::user()->rol === 'funcionario')
+                    @elseif(Auth::user()->rol === 'supervisor')
                         <a href="{{ route('productos.edit', $producto) }}" class="btn btn-sm btn-warning">Editar</a>
-                    @else
-                        <span class="text-muted">Sin acciones</span>
+                    @elseif(Auth::user()->rol === 'funcionario')
+                        <a href="{{ route('productos.edit', $producto) }}" class="btn btn-sm btn-info">Ver Detalles</a>
                     @endif
 
                     <div class="text-muted small mt-1">Último cambio: {{ $producto->updated_at->format('d/m/Y H:i') }}</div>
