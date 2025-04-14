@@ -31,6 +31,7 @@ class UserController extends Controller
 
         $request->validate([
             'name' => ['required', 'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/u'],
+            'apellidos' => $request->apellidos,
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
             'rol' => 'required',

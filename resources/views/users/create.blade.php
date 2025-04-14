@@ -21,6 +21,11 @@
             <label for="name" class="form-label">Nombre</label>
             <input name="name" type="text" class="form-control" placeholder="Nombre completo" required>
         </div>
+        
+        <div class="mb-3">
+            <label for="apellidos" class="form-label">Apellidos</label>
+            <input name="apellidos" type="text" class="form-control" placeholder="Apellidos completos" required>
+        </div>
 
         <div class="mb-3">
             <label for="email" class="form-label">Correo electrónico</label>
@@ -46,5 +51,3 @@
         <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 @endsection
-
-
