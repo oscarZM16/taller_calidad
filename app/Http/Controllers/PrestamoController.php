@@ -21,8 +21,8 @@ class PrestamoController extends Controller
 
     public function create()
     {
-        // Mostrar solo insumos disponibles
-        $insumos = Insumo::where('estado', 'disponible')->get();
+        // Mostrar todos los insumos
+        $insumos = Insumo::all();
 
         return view('prestamos.create', compact('insumos'));
     }
@@ -34,6 +34,22 @@ class PrestamoController extends Controller
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
         ]);
+
+        // Validar que no haya préstamos aprobados que se crucen en fechas
+        $existeConflicto = Prestamo::where('insumo_id', $request->insumo_id)
+            ->where('estado', 'aprobado')
+            ->where(function($query) use ($request) {
+                $query->whereBetween('fecha_inicio', [$request->fecha_inicio, $request->fecha_fin])
+                      ->orWhereBetween('fecha_fin', [$request->fecha_inicio, $request->fecha_fin])
+                      ->orWhere(function($q) use ($request) {
+                          $q->where('fecha_inicio', '<=', $request->fecha_inicio)
+                            ->where('fecha_fin', '>=', $request->fecha_fin);
+                      });
+            })->exists();
+
+        if ($existeConflicto) {
+            return back()->withErrors(['conflicto' => 'El insumo ya está reservado o prestado en este rango de fechas.']);
+        }
 
         Prestamo::create([
             'user_id' => Auth::id(),

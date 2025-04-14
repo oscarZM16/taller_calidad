@@ -29,7 +29,7 @@
                 <tr>
                     <th>#</th>
                     <th>Nombre</th>
-                    <th>Apellidos</th>
+                    <th>Apellidos</th> 
                     <th>Email</th>
                     <th>Rol</th>
                     <th>Fecha de creación</th>
@@ -41,7 +41,7 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $user->name }}</td>
-                        <td>{{ $user->apellidos }}</td>
+                         <td>{{ $user->apellidos ?? '-' }}</td> 
                         <td>{{ $user->email }}</td>
                         <td>
                             <span class="badge bg-secondary text-capitalize">{{ $user->rol }}</span>
