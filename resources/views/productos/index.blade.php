@@ -90,7 +90,7 @@
                 <td>{{ $producto->unidad_medida }}</td>
                 <td>
                     @if($producto->stock <= 0 || $producto->estado === 'inactivo')
-                        <span class="text-danger fw-bold">Agotado</span>
+                        <span class="text-danger fw-bold">Agotados</span>
                     @else
                         {{ ucfirst($producto->estado) }}
                     @endif
