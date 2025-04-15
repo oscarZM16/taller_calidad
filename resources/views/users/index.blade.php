@@ -23,7 +23,7 @@
 
     #sidebarToggle {
         position: fixed;
-        top: 20px;
+        top: 70px;
         left: 20px;
         z-index: 1100;
         width: 45px;
