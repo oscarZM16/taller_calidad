@@ -46,7 +46,12 @@
                 <option value="funcionario">Funcionario</option>
             </select>
         </div>
+        <div class="text-center mt-4">
+        <a href="{{ route('users.index') }}" class="btn btn-sm btn-link">
+    ⬅ Volver al Panel Principal
+</a>
 
+        
         <button type="submit" class="btn btn-primary">Crear usuario</button>
         <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>

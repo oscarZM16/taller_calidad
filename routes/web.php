@@ -26,9 +26,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('insumos', InsumoController::class);
-
-
-    
+    Route::get('/bandeja', [InsumoController::class, 'bandeja'])->name('insumos.bandeja');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/prestamos', [PrestamoController::class, 'index'])->name('prestamos.index');
@@ -37,6 +35,6 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/admin/prestamos', [PrestamoController::class, 'adminIndex'])->name('prestamos.admin');
         Route::post('/admin/prestamos/{prestamo}/estado', [PrestamoController::class, 'cambiarEstado'])->name('prestamos.estado');
-    });
+});
 });
 });

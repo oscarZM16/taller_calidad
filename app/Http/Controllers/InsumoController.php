@@ -68,4 +68,29 @@ class InsumoController extends Controller
         $insumo->delete();
         return redirect()->route('insumos.index')->with('success', 'Insumo eliminado');
     }
+
+    public function bandeja(Request $request)
+    {
+        $nombre = $request->input('nombre');
+        $fechaInicio = $request->input('fecha_inicio');
+        $fechaFin = $request->input('fecha_fin');
+
+        $query = \App\Models\Insumo::query();
+
+        if ($nombre) {
+            $query->where('nombre', 'like', "%{$nombre}%");
+        }
+
+        if ($fechaInicio && $fechaFin) {
+            $query->whereBetween('created_at', [$fechaInicio, $fechaFin]);
+        }
+
+        $todos = $query->get();
+
+        $disponibles = $todos->where('estado', 'disponible');
+        $prestados = $todos->where('estado', 'prestado');
+        $averiados = $todos->where('estado', 'averiado');
+
+        return view('insumos.bandeja', compact('disponibles', 'prestados', 'averiados', 'nombre', 'fechaInicio', 'fechaFin'));
+    }
 }
