@@ -15,6 +15,7 @@
         transition: transform 0.3s ease;
         z-index: 1000;
         color: white;
+        overflow-y: auto;
     }
 
     #sidebar.active {
@@ -23,7 +24,7 @@
 
     #sidebarToggle {
         position: fixed;
-        top: 70px;
+        top: 50px;
         left: 20px;
         z-index: 1100;
         width: 45px;
@@ -87,18 +88,9 @@
 </button>
 
 <div id="sidebar">
+    <div style="height: 60px;"></div>
     <div class="sidebar-section">
-        <h6>👥 Gestión de Usuarios</h6>
-        @if(in_array(auth()->user()->rol, ['administrador', 'supervisor']))
-            <a href="{{ route('users.create') }}">👤 Crear Usuario</a>
-            <a href="#" onclick="toggleUsuarios()">👥 Mostrar/Ocultar Usuarios</a>
-        @else
-            <a class="disabled">🔒 Crear Usuario</a>
-        @endif
-    </div>
-
-    <div class="sidebar-section">
-        <h6>💼 Gestión de Insumos</h6>
+        <h6>📦 Administración de Insumos</h6>
         @if(in_array(auth()->user()->rol, ['administrador', 'supervisor']))
             <a href="{{ url('/insumos/create') }}">🧾 Crear Insumo</a>
             <a href="{{ route('insumos.bandeja') }}">🖥️ Bandeja de Insumos</a>
@@ -113,9 +105,9 @@
     </div>
 
     <div class="sidebar-section">
-        <h6>📄 Gestión de Préstamos</h6>
+        <h6>📄 Solicitudes de Préstamo</h6>
         <a href="{{ url('/prestamos/create') }}">➕ Crear Préstamo</a>
-        <a href="{{ url('/prestamos') }}">💻 Solicitudes</a>
+        <a href="{{ url('/prestamos') }}">🆕 Nuevas Solicitudes</a>
         @if(in_array(auth()->user()->rol, ['administrador', 'supervisor']))
             <a href="{{ url('/admin/prestamos') }}">🗂️ Aprobación</a>
         @else
@@ -124,7 +116,17 @@
     </div>
 
     <div class="sidebar-section">
-        <h6>📊 Reportes</h6>
+        <h6>👥 Administración de Usuarios</h6>
+        @if(in_array(auth()->user()->rol, ['administrador', 'supervisor']))
+            <a href="{{ route('users.create') }}">👤 Crear Usuario</a>
+            <a href="#" onclick="toggleUsuarios()">👥 Mostrar/Ocultar Usuarios</a>
+        @else
+            <a class="disabled">🔒 Crear Usuario</a>
+        @endif
+    </div>
+
+    <div class="sidebar-section">
+        <h6>📊 Generación de Reportes</h6>
         @if(in_array(auth()->user()->rol, ['administrador', 'supervisor']))
             <a href="{{ route('reportes.insumos') }}">📦 Reporte de Insumos</a>
             <a href="{{ route('reportes.prestamos') }}">📁 Reporte de Préstamos</a>
