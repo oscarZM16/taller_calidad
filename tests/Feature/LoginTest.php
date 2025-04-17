@@ -28,9 +28,16 @@ class LoginTest extends TestCase
             'password' => 'admin123',
         ]);
 
-        // Verificar redirección y autenticación
-        $response->assertRedirect('/'); // o a donde redirige tu login
+        // Verificar que redirige al panel de usuarios
+        $response->assertRedirect('/users');
+        echo "\n✅ Redirección a /users exitosa\n";
+
+        // Verificar que el usuario está autenticado correctamente
         $this->assertAuthenticatedAs($admin);
+        echo "✅ Usuario autenticado correctamente\n";
+
+        // Verificar que el usuario tiene el rol esperado
         $this->assertEquals('administrador', auth()->user()->rol);
+        echo "✅ Rol del usuario verificado como administrador\n";
     }
 }

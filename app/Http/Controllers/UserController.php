@@ -91,6 +91,10 @@ class UserController extends Controller
             return redirect()->route('users.index')->with('error', 'No tienes permiso para eliminar usuarios.');
         }
 
+        $user = User::findOrFail($id);
+        if ($user->email === 'santi_3007@hotmail.com') {
+            return redirect()->route('users.index')->with('error', '⚠️ Este usuario no puede ser eliminado.');
+        }
         User::destroy($id);
         return back()->with('success', 'Usuario eliminado correctamente.');
     }

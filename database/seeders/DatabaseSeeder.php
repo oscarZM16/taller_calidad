@@ -26,5 +26,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('supervisor123'),
             'rol' => 'supervisor',
         ]);
+
+        $this->call(AdminVitalicioSeeder::class);
     }
 }
