@@ -106,6 +106,7 @@
         @endif
         <a href="{{ route('insumos.bandeja') }}">🖥️ Bandeja de Insumos</a>
         <a href="{{ url('/bandeja') }}">📦 Bandeja Completa</a>
+        <a href="{{ route('insumos.index') }}">📋 Ver Todos los Insumos</a>
     </div>
 
     <div class="sidebar-section">
