@@ -67,7 +67,7 @@ class PrestamoController extends Controller
     public function adminIndex()
     {
         // Ver todas las solicitudes de todos los usuarios
-        $prestamos = Prestamo::with(['usuario', 'insumo'])->orderBy('created_at', 'desc')->get();
+        $prestamos = Prestamo::with(['user', 'insumo'])->orderBy('created_at', 'desc')->get();
         return view('prestamos.admin', compact('prestamos'));
     }
 

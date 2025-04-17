@@ -22,7 +22,7 @@
             <tbody>
                 @foreach($prestamos as $p)
                     <tr>
-                        <td>{{ $p->usuario->name }}</td>
+                        <td>{{ $p->user->name ?? 'Usuario no disponible' }}</td>
                         <td>{{ $p->insumo->nombre }}</td>
                         <td><strong>{{ ucfirst($p->estado) }}</strong></td>
                         <td>{{ $p->fecha_inicio }} → {{ $p->fecha_fin }}</td>

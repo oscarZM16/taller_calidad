@@ -118,11 +118,24 @@
             <a class="disabled">🔒 Aprobación</a>
         @endif
     </div>
+
+    <div class="sidebar-section">
+        <h6>📊 Reportes</h6>
+        @if(in_array(auth()->user()->rol, ['administrador', 'supervisor']))
+            <a href="{{ route('reportes.insumos') }}">📦 Reporte de Insumos</a>
+            <a href="{{ route('reportes.prestamos') }}">📁 Reporte de Préstamos</a>
+            <a href="{{ route('reportes.disponibles') }}">📍 Insumos Disponibles</a>
+        @else
+            <a class="disabled">🔒 Acceso a Reportes</a>
+        @endif
+    </div>
 </div>
 
 <div id="mainContent">
     <div class="text-center mb-4">
-        <h1 class="text-neon" style="font-size: 2.2rem;">🧠 InventarioApp</h1>
+        <h1 style="font-size: 2.2rem; font-weight: bold; color: #0d6efd;">
+            📦 InventarioApp
+        </h1>
         <h4 class="text-muted">📊 Panel de Administración</h4>
     </div>
     <hr class="mb-4">
