@@ -12,16 +12,16 @@ class AddApellidosToUsersTable extends Migration
      * @return void
      */
     public function up()
-{
-    Schema::table('users', function (Blueprint $table) {
-        $table->string('apellidos')->nullable()->after('name');
-    });
-}
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('apellidos')->nullable()->after('name');
+        });
+    }
 
-public function down()
-{
-    Schema::table('users', function (Blueprint $table) {
-        $table->dropColumn('apellidos');
-    });
-}
+    public function down()
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('apellidos');
+        });
+    }
 }

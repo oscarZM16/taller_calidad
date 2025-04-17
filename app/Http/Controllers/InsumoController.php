@@ -10,9 +10,8 @@ class InsumoController extends Controller
 {
     public function __construct()
     {
-        // Solo el administrador puede acceder
         $this->middleware(function ($request, $next) {
-            if (Auth::user()->rol !== 'administrador') {
+            if (!in_array(Auth::user()->rol, ['administrador', 'supervisor'])) {
                 return redirect()->route('users.index')->with('error', 'Acceso denegado');
             }
             return $next($request);
