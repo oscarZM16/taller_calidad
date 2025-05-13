@@ -31,18 +31,18 @@
                                 <form action="{{ route('prestamos.estado', $p->id) }}" method="POST" style="display:inline">
                                     @csrf
                                     <input type="hidden" name="estado" value="aprobado">
-                                    <button class="btn btn-success btn-sm">Aprobar</button>
+                                    <button class="btn btn-success btn-sm"><i class="bi bi-check-circle me-1"></i>Aprobar</button>
                                 </form>
                                 <form action="{{ route('prestamos.estado', $p->id) }}" method="POST" style="display:inline">
                                     @csrf
                                     <input type="hidden" name="estado" value="rechazado">
-                                    <button class="btn btn-danger btn-sm">Rechazar</button>
+                                    <button class="btn btn-danger btn-sm"><i class="bi bi-x-circle me-1"></i>Rechazar</button>
                                 </form>
                             @else
                                 <form action="{{ route('prestamos.estado', $p->id) }}" method="POST" style="display:inline">
                                     @csrf
                                     <input type="hidden" name="estado" value="finalizado">
-                                    <button class="btn btn-secondary btn-sm">Finalizar</button>
+                                    <button class="btn btn-secondary btn-sm"><i class="bi bi-flag-fill me-1"></i>Finalizar</button>
                                 </form>
                             @endif
                         </td>
@@ -50,6 +50,11 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="text-center mt-4">
+        <a href="{{ route('users.index') }}" class="btn btn-outline-dark">
+            <i class="bi bi-arrow-left-circle me-1"></i> Volver al Panel Principal
+        </a>
+    </div>
     </div>
 </div>
 @endsection

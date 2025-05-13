@@ -83,5 +83,10 @@
         <button type="submit" class="btn btn-primary">Actualizar</button>
         <a href="{{ route('insumos.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
+    <div class="text-center mt-4">
+        <a href="{{ route('users.index') }}" class="btn btn-outline-dark">
+            <i class="bi bi-arrow-left-circle me-1"></i> Volver al Panel Principal
+        </a>
+    </div>
 </div>
 @endsection

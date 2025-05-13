@@ -48,12 +48,13 @@
             </select>
         </div>
         <div class="text-center mt-4">
-        <a href="{{ route('users.index') }}" class="btn btn-sm btn-link">
-    ⬅ Volver al Panel Principal
-</a>
-
         
         <button type="submit" class="btn btn-primary">Crear usuario</button>
         <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancelar</a>
+        <div class="text-center mt-4">
+        <a href="{{ route('users.index') }}" class="btn btn-outline-dark">
+            <i class="bi bi-arrow-left-circle me-1"></i> Volver al Panel Principal
+        </a>
+    </div>
     </form>
 @endsection

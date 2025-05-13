@@ -50,4 +50,9 @@
         <button type="submit" class="btn btn-success">Guardar cambios</button>
         <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
+    <div class="text-center mt-4">
+        <a href="{{ route('users.index') }}" class="btn btn-outline-dark">
+            <i class="bi bi-arrow-left-circle me-1"></i> Volver al Panel Principal
+        </a>
+    </div>
 @endsection
