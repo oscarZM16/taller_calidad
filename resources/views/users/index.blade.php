@@ -8,7 +8,7 @@
         left: 0;
         height: 100%;
         width: 250px;
-        background: #1e1e2f;
+        background: #000000;
         padding: 20px;
         transform: translateX(-260px);
         transition: transform 0.3s ease;
@@ -30,7 +30,7 @@
         height: 45px;
         border-radius: 50%;
         border: none;
-        background-color: #343a40;
+        background-color: #000000;
         color: white;
         font-size: 24px;
         box-shadow: 0 2px 5px rgba(0,0,0,0.3);
@@ -87,7 +87,7 @@
     left: 0;
     height: 100%;
     width: 250px;
-    background: #1e1e2f;
+    background: #000000;
     padding: 20px;
     transform: translateX(-260px);
     transition: transform 0.3s ease;
@@ -113,13 +113,14 @@
 
     <div class="sidebar-section">
         <h6><i class="bi bi-box-seam me-2"></i> Administración de Insumos</h6>
-        @if(in_array(auth()->user()->rol, ['administrador', 'supervisor']))
+        @if(in_array(auth()->user()->rol, ['administrador']))
             <a href="{{ url('/insumos/create') }}"><i class="bi bi-journal-plus me-2"></i> Crear Insumo</a>
             <a href="{{ route('insumos.bandeja') }}"><i class="bi bi-pc-display-horizontal me-2"></i> Bandeja de Insumos</a>
             <a href="{{ route('insumos.index') }}"><i class="bi bi-list-check me-2"></i> Ver Todos los Insumos</a>
         @else
-            <a class="disabled"><i class="bi bi-lock me-2"></i> Bandeja de Insumos</a>
-            <a class="disabled"><i class="bi bi-lock me-2"></i> Ver Insumos</a>
+            <a href="{{ route('insumos.bandeja') }}"><i class="bi bi-pc-display-horizontal me-2"></i> Bandeja de Insumos</a>
+            <a class="disabled"><i class="bi bi-lock me-2"></i> Crear Insumo</a>
+            <a class="disabled"><i class="bi bi-lock me-2"></i> Ver Todos los Insumos</a>
         @endif
     </div>
 
@@ -136,11 +137,12 @@
 
     <div class="sidebar-section">
         <h6><i class="bi bi-people me-2"></i> Administración de Usuarios</h6>
-        @if(in_array(auth()->user()->rol, ['administrador', 'supervisor']))
+        @if(in_array(auth()->user()->rol, ['administrador']))
             <a href="{{ route('users.create') }}"><i class="bi bi-person-plus me-2"></i> Crear Usuario</a>
             <a href="#" onclick="toggleUsuarios()"><i class="bi bi-people-fill me-2"></i> Mostrar/Ocultar Usuarios</a>
         @else
             <a class="disabled"><i class="bi bi-lock me-2"></i> Crear Usuario</a>
+            <a class="disabled"><i class="bi bi-lock me-2"></i> Lista de Usuarios</a>
         @endif
     </div>
 
