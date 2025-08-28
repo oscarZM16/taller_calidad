@@ -22,7 +22,7 @@
             <tbody>
                 @foreach($prestamos as $p)
                     <tr>
-                        <td>{{ $p->usuario->name }}</td>
+                        <td>{{ $p->user->name ?? 'Usuario no disponible' }}</td>
                         <td>{{ $p->insumo->nombre }}</td>
                         <td><strong>{{ ucfirst($p->estado) }}</strong></td>
                         <td>{{ $p->fecha_inicio }} → {{ $p->fecha_fin }}</td>
@@ -51,5 +51,10 @@
             </tbody>
         </table>
     </div>
+</div>
+<div class="text-center mt-4">
+    <a href="{{ route('users.index') }}" class="btn btn-outline-dark">
+        ⬅ Volver al Panel Principal
+    </a>
 </div>
 @endsection

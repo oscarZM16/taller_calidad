@@ -31,6 +31,7 @@ class UserController extends Controller
 
         $request->validate([
             'name' => ['required', 'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/u'],
+            'apellidos' => ['required', 'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/u'],
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
             'rol' => 'required',
@@ -38,9 +39,11 @@ class UserController extends Controller
 
         User::create([
             'name' => $request->name,
+            'apellidos' => $request->apellidos,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'rol' => $request->rol,
+               
         ]);
 
         return redirect()->route('users.index')->with('success', 'Usuario creado correctamente.');
@@ -67,6 +70,7 @@ class UserController extends Controller
             'email' => "required|email|unique:users,email,$id",
             'password' => 'nullable|min:6',
             'rol' => 'required',
+
         ]);
 
         $user = User::findOrFail($id);
@@ -89,6 +93,10 @@ class UserController extends Controller
             return redirect()->route('users.index')->with('error', 'No tienes permiso para eliminar usuarios.');
         }
 
+        $user = User::findOrFail($id);
+        if ($user->email === 'santi_3007@hotmail.com') {
+            return redirect()->route('users.index')->with('error', '⚠️ Este usuario no puede ser eliminado.');
+        }
         User::destroy($id);
         return back()->with('success', 'Usuario eliminado correctamente.');
     }

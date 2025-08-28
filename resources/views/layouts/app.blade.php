@@ -10,14 +10,12 @@
 <body class="bg-light">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">InventarioApp</a>
-
         @if (auth()->check())
-            <div class="d-flex align-items-center ms-auto">
-                <span class="text-white me-3">Hola, {{ auth()->user()->name }}</span>
+            <div class="d-flex justify-content-between w-100 align-items-center">
+                <span class="text-white fw-semibold">Bienvenido, {{ auth()->user()->name }}</span>
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
-                    <button type="submit" class="btn btn-outline-light btn-sm">Cerrar sesión</button>
+                    <button type="submit" class="btn btn-sm btn-light ms-3">Cerrar sesión</button>
                 </form>
             </div>
         @endif
